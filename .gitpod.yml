@@ -7,6 +7,8 @@ tasks:
   - name: terraform
     before: |
       ./bin/terraform_cli_install.sh
+    init: |
+      terraform init
   # AWS CLI
   # https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
   - name: aws-cli
@@ -14,9 +16,10 @@ tasks:
       AWS_CLI_AUTO_PROMPT: on-partial
     before: |
       ./bin/aws_cli_install.sh
-  - name: cdk
-    before: |
-      npm i -g aws-cdk
+  # AWS CDK
+  #- name: cdk
+  #  before: |
+  #    npm i -g aws-cdk
   # https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.4
   # https://docs.aws.amazon.com/powershell/latest/userguide/pstools-getting-set-up-linux-mac.html
   # https://docs.aws.amazon.com/powershell/latest/reference/
