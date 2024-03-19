@@ -37,3 +37,23 @@ resource "aws_route" "default_route" {
     gateway_id = aws_internet_gateway.mtc_internet_gateway.id
 }
 
+resource "aws_default_route_table" "mtc_private_rt" {
+  default_route_table_id = aws_vpc.mtc_vpc.default_route_table_id
+
+  tags = {
+    Name = "mtc_private"
+    project = "mtc-taj"
+  }
+}
+
+resource "aws_subnet" "mtc_public_subnet" {
+  vpc_id = aws_vpc.mtc_vpc.id
+  cidr_block = var.public_cidrs
+  map_public_ip_on_launch = true
+  availability_zone = data.aws_availability_zones.names[0]
+
+  tags = {
+    Name = "mtc-public"
+    project = "mtc-taj"
+  }
+}
