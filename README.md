@@ -91,4 +91,10 @@ terraform apply -auto-approve
 terraform state show data.aws_ami.server_ami
 ```
 
-###
+### User data
+From: https://courses.morethancertified.com/courses/1566590/lectures/35848100
+
+```sh
+terraform state list
+terraform taint <resource>
+```

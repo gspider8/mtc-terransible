@@ -26,12 +26,25 @@ resource "aws_instance" "mtc_main" {
     key_name = aws_key_pair.mtc_auth.id
     vpc_security_group_ids = [aws_security_group.mtc-sg.id]
     subnet_id = aws_subnet.mtc_public_subnet[count.index].id
+    user_data = templatefile("./main-userdata.tpl", {new_hostname = "mtc-main-${random_id.mtc_node_id[count.index].dec}"})
     root_block_device {
       volume_size = var.main_vol_size
     }
+
     tags = {
         Name = "mtc-main-${random_id.mtc_node_id[count.index].dec}"
         project = "mtc-taj"
     }
-}
 
+    provisioner "local-exec" {
+        # only place for hyphens (provvisioners)
+        command = "printf '\n${self.public_ip}' >> aws_hosts"
+    }
+
+    provisioner "local-exec" {
+        # dont use
+        when = destroy
+        command = "sed -i '/^[0-9]/d' aws_hosts"
+    }
+
+}
