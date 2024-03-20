@@ -1,5 +1,5 @@
 locals {
-    azs = data.aws_availability_zones.available.names
+  azs = data.aws_availability_zones.available.names
 }
 
 data "aws_availability_zones" "available" {}
@@ -71,7 +71,7 @@ resource "aws_subnet" "mtc_private_subnet" {
   cidr_block              = cidrsubnet(var.vpc_cidr, 8, length(local.azs) + count.index)
   map_public_ip_on_launch = false
   availability_zone       = local.azs[count.index]
-    # local .azs = data.aws_availability_zones.available.names
+  # local .azs = data.aws_availability_zones.available.names
   tags = {
     Name    = "mtc-private-${count.index + 1}"
     project = "mtc-taj"
@@ -79,36 +79,36 @@ resource "aws_subnet" "mtc_private_subnet" {
 }
 
 resource "aws_route_table_association" "mtc-public_assoc" {
-  count = length(local.azs) 
+  count = length(local.azs)
 
   #add all public subnets to a list than index them
   #subnet_id = aws_subnet.mtc_public_subnet.*.id[count.index] 
   subnet_id = aws_subnet.mtc_public_subnet[count.index].id
-  
+
   route_table_id = aws_route_table.mtc_public_rt.id
   # private subnets associated with default (private) route table
 }
 
 resource "aws_security_group" "mtc-sg" {
-  name = "public_sg"
+  name        = "public_sg"
   description = "Security group for public instances"
-  vpc_id = aws_vpc.mtc_vpc.id
+  vpc_id      = aws_vpc.mtc_vpc.id
 }
 
 resource "aws_security_group_rule" "ingress_all" {
-  type = "ingress"
-  from_port = 0
-  to_port = 65535
-  protocol = "-1" #any 
-  cidr_blocks = [var.access_ip]
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1" #any 
+  cidr_blocks       = [var.access_ip]
   security_group_id = aws_security_group.mtc-sg.id
 }
 
 resource "aws_security_group_rule" "egress_all" {
-  type = "egress"
-  from_port = 0
-  to_port = 65535
-  protocol = "-1" #any 
-  cidr_blocks = ["0.0.0.0/0"]
+  type              = "egress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1" #any 
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.mtc-sg.id
 }
