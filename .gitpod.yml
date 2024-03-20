@@ -10,7 +10,9 @@ tasks:
       echo $MTC_KEY_PUB > ~/.ssh/mtc_key.pub
     init: |
       cd terraform
-      terraform init
+     # terraform login
+     # aws configure
+     # terraform init
   # AWS CLI
   # https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
   - name: aws-cli
