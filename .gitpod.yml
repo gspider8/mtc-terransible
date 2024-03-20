@@ -8,6 +8,7 @@ tasks:
     before: |
       ./bin/terraform_cli_install.sh
     init: |
+      cd terraform
       terraform init
   # AWS CLI
   # https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
