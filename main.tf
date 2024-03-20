@@ -77,3 +77,14 @@ resource "aws_subnet" "mtc_private_subnet" {
     project = "mtc-taj"
   }
 }
+
+resource "aws_route_table_association" "mtc-public_assoc" {
+  count = length(local.azs) 
+
+  #add all public subnets to a list than index them
+  #subnet_id = aws_subnet.mtc_public_subnet.*.id[count.index] 
+  subnet_id = aws_subnet.mtc_public_subnet[count.index].id
+  
+  route_table_id = aws_route_table.mtc_public_rt.id
+  # private subnets associated with default (private) route table
+}
