@@ -88,3 +88,27 @@ resource "aws_route_table_association" "mtc-public_assoc" {
   route_table_id = aws_route_table.mtc_public_rt.id
   # private subnets associated with default (private) route table
 }
+
+resource "aws_security_group" "mtc-sg" {
+  name = "public_sg"
+  description = "Security group for public instances"
+  vpc_id = aws_vpc.mtc_vpc.id
+}
+
+resource "aws_security_group_rule" "ingress_all" {
+  type = "ingress"
+  from_port = 0
+  to_port = 65535
+  protocol = "-1" #any 
+  cidr_blocks = [var.access_ip]
+  security_group_id = aws_security_group.mtc-sg.id
+}
+
+resource "aws_security_group_rule" "egress_all" {
+  type = "egress"
+  from_port = 0
+  to_port = 65535
+  protocol = "-1" #any 
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.mtc-sg.id
+}
