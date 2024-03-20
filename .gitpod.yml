@@ -7,7 +7,6 @@ tasks:
   - name: terraform
     before: |
       ./bin/terraform_cli_install.sh
-      echo $MTC_KEY_PUB > ~/.ssh/mtc_key.pub
     init: |
       cd terraform
      # terraform login
@@ -20,6 +19,7 @@ tasks:
       AWS_CLI_AUTO_PROMPT: on-partial
     before: |
       ./bin/aws_cli_install.sh
+
   # AWS CDK
   #- name: cdk
   #  before: |
@@ -37,5 +37,8 @@ tasks:
     #  rm packages-microsoft-prod.deb
     #  sudo apt-get update
     #  sudo apt-get install -y powershell
-
+  - name: ssh-keys
+    before: |
+      echo $MTC_KEY_PUB > ~/.ssh/mtc_key.pub
+      echo $MTC_KEY > ~/.ssh/mtc_key
   

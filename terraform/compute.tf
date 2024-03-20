@@ -49,7 +49,7 @@ resource "aws_instance" "mtc_main" {
 
 }
 
-resource "null_resource" "grafana update" {
+resource "null_resource" "grafana_update" {
   count = var.main_instance_count
   provisioner "remote-exec" {
     inline = ["sudo apt upgrade -y grafana && touch upgrade.log && echo 'I updated Grafana' >> upgrade.log"] 
