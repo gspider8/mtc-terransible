@@ -9,4 +9,19 @@ variable "access_ip" {
   default = "99.61.91.234/32" 
 }
 
+# compute.tf
 
+variable main_instance_type {
+  type = string
+  default = "t2.micro"
+}
+
+variable main_vol_size {
+  type = number
+  default = 8 #GB
+}
+
+variable main_instance_count {
+  type = number
+  default = 1
+}
